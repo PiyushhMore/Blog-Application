@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import databaseconfig from "../appwrite/databaseconfig";
+import appwriteService from "../appwrite/databaseconfig";
 import { Container, PostCard } from "../components";
 
 
 function Home(){
-    const [post, setPosts] = useState()
+    const [posts, setPosts] = useState([])
     
     useEffect(() => {
-        databaseconfig.getPosts().then((post) => {
-            if(post){
-                setPosts(post.documents)
+        appwriteService.getPosts().then((posts) => {
+            if(posts){
+                setPosts(posts.documents)
             }
         })
     },[])
 
-    if(post.length() === 0){
+    if(posts.length === 0){
         return (
             <div className="w-full py-8 mt-4 text-center">
                 <Container>
@@ -28,14 +28,14 @@ function Home(){
                 </Container>
             </div>
         )
-    } 
+    }
     return (
         <div className='w-full py-8'>
             <Container>
                 <div className='flex flex-wrap'>
-                    {post.map((posts) => (
-                        <div key={posts.$id} className='p-2 w-1/4'>
-                            <PostCard {...posts} />
+                    {posts.map((post) => (
+                        <div key={post.$id} className='p-2 w-1/4'>
+                            <PostCard {...post} />
                         </div>
                     ))}
                 </div>
